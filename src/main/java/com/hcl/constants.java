@@ -1,5 +1,7 @@
 package com.hcl;
 
 public class constants {
-    final static String FOLDER = "C:\\Users\\danto\\eclipse-workspace\\lockedMe\\src\\LockDirectory";
+
+    public final static String FOLDER = "src/main/resources/LockDirectory";
+
 }
