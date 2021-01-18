@@ -16,6 +16,80 @@ public class fileAccess {
 
     static Scanner scanner = new Scanner(System.in);
 
+    // displays Welcome Screen
+    static void showWelcomeScreen() {
+        System.out.println("");
+        System.out.println("--------- WELCOME    to    LockedMe.com ------");
+        System.out.println("");
+        System.out.println("Developer: Dan Tony Le");
+        System.out.println("----------------------------------------------");
+    }
+
+    // displays Main Menu options
+    static void showMainMenu() {
+        System.out.println("------------------ MAIN MENU -----------------");
+        System.out.println("1.) Show files in ascending order");
+        System.out.println("2.) Perform file operations");
+        System.out.println("3.) Close the application");
+        System.out.println("----------------------------------------------");
+        collectMainMenuOption();
+    }
+
+    // processes user input for Main Menu options
+    private static void collectMainMenuOption() {
+            System.out.println("Please choose 1, 2 or 3:");
+        String option = scanner.nextLine();
+        switch (option) {
+            case "1":
+                showFilesInAscendingOrder();
+                break;
+            case "2":
+                showFileOperations();
+                break;
+            case "3":
+                System.out.println("Thanks for using LockedMe.com. Closing application.");
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Invalid input provided, please choose 1, 2 or 3.");
+        }
+        showMainMenu();
+    }
+
+    // displays all current files in directory in ascending order
+    private static void showFilesInAscendingOrder() {
+
+        System.out.println("--------------- Current LockedMe Files -----------------");
+        System.out.println("Showing files in ascending order");
+        File[] files = new File(constants.FOLDER).listFiles();
+
+        List<String> sorted = new ArrayList<String>();
+
+        for (File file: files) {
+            if (!file.isFile()) {
+                continue;
+            }
+            sorted.add(file.getName());
+        }
+
+        Collections.sort(sorted);
+
+        sorted.forEach(System.out::println);
+        System.out.println("----------------------------------------------");
+    }
+
+    // display File Manager options
+    private static void showFileOperations() {
+        System.out.println("--------------- FILE MANAGER -----------------");
+        System.out.println("1.) Add a file");
+        System.out.println("2.) Delete a file");
+        System.out.println("3.) Search for a file");
+        System.out.println("4.) Back to main menu");
+        System.out.println("----------------------------------------------");
+        collectFileOperation();
+    }
+
+    // processes user input for File Manager options
     private static void collectFileOperation() {
         System.out.println("Please choose 1, 2, 3 or 4:");
         String option = scanner.nextLine();
@@ -38,74 +112,7 @@ public class fileAccess {
         showFileOperations();
     }
 
-    private static void showFilesInAscendingOrder() {
-
-        System.out.println("--------------- Current LockedMe Files -----------------");
-        System.out.println("Showing files in ascending order");
-        File[] files = new File(constants.FOLDER).listFiles();
-
-        List<String> sorted = new ArrayList<String>();
-
-        for (File file: files) {
-            if (!file.isFile()) {
-                continue;
-            }
-            sorted.add(file.getName());
-        }
-
-        Collections.sort(sorted);
-
-        sorted.forEach(System.out::println);
-        System.out.println("----------------------------------------------");
-    }
-
-    static void showMainMenu() {
-        System.out.println("------------------ MAIN MENU -----------------");
-        System.out.println("1.) Show files in ascending order");
-        System.out.println("2.) Perform file operations");
-        System.out.println("3.) Close the application");
-        System.out.println("----------------------------------------------");
-        collectMainMenuOption();
-    }
-
-    static void showWelcomeScreen() {
-        System.out.println("");
-        System.out.println("--------- WELCOME    to    LockedMe.com ------");
-        System.out.println("");
-        System.out.println("Developer: Dan Tony Le");
-        System.out.println("----------------------------------------------");
-    }
-
-    private static void collectMainMenuOption() {
-            System.out.println("Please choose 1, 2 or 3:");
-        String option = scanner.nextLine();
-        switch (option) {
-            case "1":
-                showFilesInAscendingOrder();
-                break;
-            case "2":
-                showFileOperations();
-                break;
-            case "3":
-                System.out.println("Thanks for using LockedMe.com. Closing application.");
-                System.exit(0);
-                break;
-            default:
-                System.out.println("Invalid input provided, please choose 1, 2 or 3.");
-        }
-        showMainMenu();
-    }
-
-    private static void showFileOperations() {
-        System.out.println("--------------- FILE MANAGER -----------------");
-        System.out.println("1.) Add a file");
-        System.out.println("2.) Delete a file");
-        System.out.println("3.) Search for a file");
-        System.out.println("4.) Back to main menu");
-        System.out.println("----------------------------------------------");
-        collectFileOperation();
-    }
-
+    // add a file to the Lockedme directory
     private static void addAFile() throws InvalidPathException {
 
         System.out.println("--------------- ADD option -------------------");
@@ -140,7 +147,7 @@ public class fileAccess {
 
     }
 
-    // Shows all
+    // deletes a file from the LockedMe directory
     private static void deleteFile() throws InvalidPathException {
 
         System.out.println("--------------- DELETE option ----------------");
@@ -188,6 +195,7 @@ public class fileAccess {
     // User enters a fileName
     // Search through LockDirectory folder
     // Find file based on name and type given: sample.txt
+    // Spelling must be correct
     // Allow upper and lower case but must be spelled correctly
     private static void searchFile() {
 
