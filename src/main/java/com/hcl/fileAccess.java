@@ -2,6 +2,7 @@ package com.hcl;
 
 import com.hcl.constants;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,6 +10,7 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.List;
 
 public class fileAccess {
 
@@ -83,6 +85,7 @@ public class fileAccess {
                 break;
             case "2":
                 showFileOperations();
+                break;
             case "3":
                 System.out.println("Thanks for using lockedme.com. Closing application.");
                 System.exit(0);
@@ -109,6 +112,7 @@ public class fileAccess {
         System.out.println("Please provide a file path:");
         String filePath = scanner.nextLine();
         Path path = Paths.get(filePath);
+
 
         if (!Files.exists(path)) {
             System.out.println("File does not exist");
@@ -143,7 +147,7 @@ public class fileAccess {
         File[] files = new File(constants.FOLDER).listFiles();
         System.out.println("Current files in LockedMe folder:");
         for(File file: files) {
-            System.out.print( file.getName() + " ");
+            System.out.print( "[ " + file.getName() + " ] ");
         }
 
         boolean fileFound = false;
@@ -189,17 +193,32 @@ public class fileAccess {
 
         System.out.println("--------------- SEARCH option ----------------");
         File[] files = new File(constants.FOLDER).listFiles();
+        List<String> removedFileType = new ArrayList<String>();
         String filePath = "";
         boolean fileFound = false;
         boolean specialCase = false;
+        boolean containsCase = false;
         String lowerCase = "";
         String exactFileName = "";
+        int dotIndex = 0;
 
+        System.out.println("Current files in LockedMe folder:");
+        for(File file: files) {
+            System.out.print( "[ " + file.getName() + " ] ");
+            dotIndex = file.getName().indexOf(".");
+            removedFileType.add(file.getName().toString().substring(0,dotIndex));
+        }
+
+        for(String name: removedFileType) {
+            System.out.print( "[ " + name + " ] ");
+        }
+
+        System.out.println("----------------------------------------------");
 
         System.out.println("Please provide a file name from above to return file path:");
         String fileName = scanner.nextLine();
 
-        for(File file: files) {
+        for (File file : files) {
             lowerCase = file.getName().toLowerCase();
             if (fileName.equals(file.getName())) {
                 fileFound = true;
@@ -208,15 +227,19 @@ public class fileAccess {
                 specialCase = true;
                 filePath = file.getPath().toString();
                 exactFileName = file.getName();
+            } else if (lowerCase.contains(fileName.toLowerCase())) {
+                specialCase = true;
+                filePath = file.getPath().toString();
+                exactFileName = file.getName();
             }
         }
 
         if (fileFound) {
-            System.out.println( "File was found: file path below: ");
-            System.out.println( filePath );
+            System.out.println("File was found: file path below: ");
+            System.out.println(filePath);
         } else if (specialCase) {
-            System.out.println( "Did you mean to find: "+ exactFileName +" - file path below: ");
-            System.out.println( filePath );
+            System.out.println("Did you mean to find: " + exactFileName + " - file path below: ");
+            System.out.println(filePath);
         } else {
             System.out.println("File does not exist");
         }
