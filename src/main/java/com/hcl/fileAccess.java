@@ -40,7 +40,7 @@ public class fileAccess {
 
     private static void showFilesInAscendingOrder() {
 
-        System.out.println("--------------- LOCKED FILES -----------------");
+        System.out.println("--------------- Current LockedMe Files -----------------");
         System.out.println("Showing files in ascending order");
         File[] files = new File(constants.FOLDER).listFiles();
 
@@ -87,7 +87,7 @@ public class fileAccess {
                 showFileOperations();
                 break;
             case "3":
-                System.out.println("Thanks for using lockedme.com. Closing application.");
+                System.out.println("Thanks for using LockedMe.com. Closing application.");
                 System.exit(0);
                 break;
             default:
@@ -115,7 +115,7 @@ public class fileAccess {
 
 
         if (!Files.exists(path)) {
-            System.out.println("File does not exist");
+            System.out.println("File does not exist using entered file path");
             return;
         }
 
@@ -194,42 +194,49 @@ public class fileAccess {
         System.out.println("--------------- SEARCH option ----------------");
         File[] files = new File(constants.FOLDER).listFiles();
         List<String> removedFileType = new ArrayList<String>();
-        String filePath = "";
+        String filePath = null;
         boolean fileFound = false;
         boolean specialCase = false;
-        boolean containsCase = false;
-        String lowerCase = "";
-        String exactFileName = "";
+        String lowerCase;
+        String exactFileName = null;
+        String nameOnly = null;
         int dotIndex = 0;
 
         System.out.println("Current files in LockedMe folder:");
         for(File file: files) {
             System.out.print( "[ " + file.getName() + " ] ");
-            dotIndex = file.getName().indexOf(".");
-            removedFileType.add(file.getName().toString().substring(0,dotIndex));
+            /*dotIndex = file.getName().indexOf(".");
+            removedFileType.add(file.getName().toString().substring(0,dotIndex));*/
         }
 
-        for(String name: removedFileType) {
+       /* for(String name: removedFileType) {
             System.out.print( "[ " + name + " ] ");
-        }
+        }*/
 
+        System.out.println("");
         System.out.println("----------------------------------------------");
 
         System.out.println("Please provide a file name from above to return file path:");
         String fileName = scanner.nextLine();
 
         for (File file : files) {
+
+            dotIndex = file.getName().indexOf(".");
+            nameOnly = file.getName().substring(0, dotIndex).toLowerCase();
             lowerCase = file.getName().toLowerCase();
+
+            //System.out.print( " nameOnly: " + nameOnly );
+
             if (fileName.equals(file.getName())) {
                 fileFound = true;
-                filePath = file.getPath().toString();
+                filePath = file.getPath();
             } else if (lowerCase.equals(fileName.toLowerCase())) {
                 specialCase = true;
-                filePath = file.getPath().toString();
+                filePath = file.getPath();
                 exactFileName = file.getName();
-            } else if (lowerCase.contains(fileName.toLowerCase())) {
+            } else if (nameOnly.equals(fileName.toLowerCase())) {
                 specialCase = true;
-                filePath = file.getPath().toString();
+                filePath = file.getPath();
                 exactFileName = file.getName();
             }
         }
@@ -249,3 +256,4 @@ public class fileAccess {
 
     }
 }
+
